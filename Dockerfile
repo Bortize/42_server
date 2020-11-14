@@ -27,7 +27,9 @@ ADD ./srcs/phpinfo.php /var/www/html/
 ADD ./srcs/index.html /var/www/html/
 #SSL
 ADD https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 .
-RUN chmod +x mkcert-v1.4.1-linux-amd64 && ./mkcert-v1.4.1-linux-amd64 -install && ./mkcert-v1.4.1-linux-amd64 localhost
+RUN chmod +x mkcert-v1.4.1-linux-amd64 \
+	&& ./mkcert-v1.4.1-linux-amd64 -install \
+	&& ./mkcert-v1.4.1-linux-amd64 localhost
 #WORDPRESS
 #ADD https://wordpress.org/latest.tar.gz /tmp/
 #MYSQL
