@@ -43,11 +43,16 @@ RUN tar xfp phpMyAdmin-5.0.4-english.tar.gz
 RUN mv phpMyAdmin-5.0.4-english /var/www/html/phpmyadmin/
 ADD ./srcs/config.inc.php /var/www/html/phpmyadmin/config.inc.php
 # Finis
-RUN chown -R
-
+RUN chown -R www-data:www-data /var/www/html/
+RUN chmod -R 775 /var/www/html/
+# exposes the port to connect to the internet
 EXPOSE 80
-
+# execute these commands in the container terminal
 CMD service nginx start \
 	&& service php7.3-fpm start \
-	&& mysql start
-#	&& sleep infinity
+	&& service mysql start \
+	&& echo "CREATE DATABASE wordpress;" | mysql -u root \
+	&& mysql - u root "GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost':" \
+	&& mysql -u root"FLUSH PRIVILEGES;" \
+	&& mysql -u root "update mysql.user set plugin = 'mysql_native_password' where user = 'root';" \
+	&& sleep infinity
