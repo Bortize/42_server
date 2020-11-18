@@ -10,14 +10,21 @@ RUN apt install vim -y \
 # Install NGINX
 RUN apt install nginx -y
 RUN rm /etc/nginx/sites-enabled/default
-ADD ./srcs/localhost.conf /etc/nginx/sites-enabled/
+COPY ./srcs/localhost.conf /etc/nginx/sites-available/
+COPY ./srcs/autoindex_localhost.conf /etc/nginx/sites-available/
+COPY ./srcs/autoindex_off.sh .
+COPY ./srcs/autoindex_on.sh .
+RUN ln -s /etc/nginx/sites-available/localhost.conf /etc/nginx/sites-enabled/
+
 # Install php and the extensions that wordpress needs
 RUN apt install php7.3 -y
 RUN apt install php7.3-cli php7.3-common php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-xml php-fpm -y
 ADD ./srcs/php.ini /etc/php/7.3/cli/
 # Install SSL
 ADD https://github.com/FiloSottile/mkcert/releases/download/v1.4.2/mkcert-v1.4.2-linux-amd64 .
-RUN chmod +x mkcert-v1.4.2-linux-amd64 && ./mkcert-v1.4.2-linux-amd64 -install && ./mkcert-v1.4.2-linux-amd64 localhost
+RUN chmod +x mkcert-v1.4.2-linux-amd64 \
+	&& ./mkcert-v1.4.2-linux-amd64 -install \
+	&& ./mkcert-v1.4.2-linux-amd64 localhost
 # Install Wordpress
 ADD https://wordpress.org/latest.tar.gz .
 RUN tar xfp ./latest.tar.gz
