@@ -1,5 +1,6 @@
 #!/bin/bash
 /etc/init.d/php7.3-fpm start
+ln -s /etc/nginx/sites-available/${autoindex} /etc/nginx/sites-enabled/
 service nginx start
 service mysql start
 echo "CREATE DATABASE wordpress;" | mysql -u root

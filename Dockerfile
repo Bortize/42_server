@@ -2,9 +2,8 @@
 FROM debian:buster
 # Sets a specific path for the prompt
 WORKDIR /tmp
-# ENV-VAR for autoindex
-ARG INDEX
-ENV autoindex ${INDEX}
+#
+ENV autoindex=localhost.conf
 # Updating ubuntu and installing other necessary software
 RUN apt update
 # Install VIM & cat
@@ -15,7 +14,7 @@ RUN apt install nginx -y
 RUN rm /etc/nginx/sites-enabled/default
 COPY ./srcs/localhost.conf /etc/nginx/sites-available/
 COPY ./srcs/on_localhost.conf /etc/nginx/sites-available/
-RUN ln -s /etc/nginx/sites-available/${autoindex} /etc/nginx/sites-enabled/
+#RUN ln -s /etc/nginx/sites-available/localhost.conf /etc/nginx/sites-enabled/
 # Install php and the extensions that wordpress needs
 RUN apt install php7.3 -y
 RUN apt install php7.3-cli php7.3-common php7.3-curl php7.3-gd php7.3-json php7.3-mbstring php7.3-mysql php7.3-xml php-fpm -y
