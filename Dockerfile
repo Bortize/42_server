@@ -36,7 +36,7 @@ ADD https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-english.tar.g
 RUN tar xfp phpMyAdmin-5.0.4-english.tar.gz
 RUN mv phpMyAdmin-5.0.4-english /var/www/html/phpmyadmin/
 ADD ./srcs/config.inc.php /var/www/html/phpmyadmin/config.inc.php
-RUN rm /var/www/html/index.html /var/www/html/index.nginx-debian.html
+RUN rm /var/www/html/index.html
 # File permissions and Start of services
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html/
